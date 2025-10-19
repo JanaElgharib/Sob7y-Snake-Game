@@ -1,15 +1,11 @@
-# 🐍 Sob7y Za Snake - Vue.js/VueX Implementation
+# Pac-man Snake Game - Vue.js/VueX Implementation
 
-A modern, fully-featured Snake game built with Vue 3, Vuex, and the Composition API with five exciting difficulty levels including time-based challenges and infinite mode.
+A modern, fully-featured Snake game (pacman themed) built with Vue 3, Vuex, and the Composition API with five exciting difficulty levels including time-based challenges and infinite mode.
 
 ## 📋 Project Overview
 
 This project is a complete implementation of the classic Snake game with five unique difficulty levels, built as a graded practical assignment for ICS 511: Web Programming.
 
-### Team Information
-- **Team Name:** [Your Team Name]
-- **Members:** [Member 1 Name (ID, Email)], [Member 2 Name (ID, Email)]
-- **Project:** Single Player JavaScript Snake Game
 
 ## 🎮 Game Features
 
