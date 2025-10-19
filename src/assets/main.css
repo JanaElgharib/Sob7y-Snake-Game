@@ -1,0 +1,6 @@
+/* Minimal global styles for Snake Game */
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
