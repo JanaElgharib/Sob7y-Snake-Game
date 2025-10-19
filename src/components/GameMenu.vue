@@ -16,8 +16,9 @@ const startGame = (level) => {
   <div class="game-menu">
     <div class="menu-container">
       <h1 class="game-title">
-        <img src="D:\Semester 5\Electives\Web Programming\Snake Game\snake-game\src\assets\sob7y.png" alt="Sob7y" class="snake-icon"/>
-        Sob7y Za Snake
+        <img src ="D:\Semester 5\Electives\Web Programming\Snake Game\snake-game\src\assets\rattlesnake.png" alt="Snake" class="snake-icon"/>
+        PAC-MAN Snake 
+        <img src="D:\Semester 5\Electives\Web Programming\Snake Game\snake-game\src\assets\halloween.png" alt="Pacman" class="pacman-icon"/>
       </h1>
       
       <div class="high-score">
@@ -97,7 +98,9 @@ const startGame = (level) => {
       <div class="instructions">
         <h3>How to Play</h3>
         <p>🎮 Use Arrow Keys or WASD to control the snake</p>
-        <p>🍎 Eat food to grow and score points</p>
+        <p>
+            <img src ="D:\Semester 5\Electives\Web Programming\Snake Game\snake-game\src\assets\game.png" alt="pacFood" class="small-pacman-icon"/>
+            Eat food to grow and score points</p>
         <p>⚠️ Don't hit the walls or yourself!</p>
         <p>⏸️ Press SPACE to pause</p>
       </div>
@@ -107,52 +110,80 @@ const startGame = (level) => {
 
 <style scoped>
 .snake-icon {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   vertical-align: middle;
   margin-right: 8px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.snake-icon:hover {
+  transform: translateY(-3px) scale(1.1);
+  filter: drop-shadow(0 5px 15px rgba(0, 255, 0, 0.6));
+}
+
+.pacman-icon {
+  width: 50px;
+  height: 50px;
+  vertical-align: middle;
+  margin-right: 8px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.pacman-icon:hover {
+  transform: translateY(-3px) scale(1.1);
+  filter: drop-shadow(0 5px 15px rgba(255, 255, 0, 0.6));
 }
 .game-menu {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #000000;
   padding: 20px;
 }
 
 .menu-container {
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(0, 0, 0, 0.9);
   border-radius: 20px;
   padding: 40px;
   max-width: 800px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 60px rgba(255, 255, 0, 0.3);
+  border: 2px solid #333;
 }
 
 .game-title {
   font-size: 3rem;
   text-align: center;
   margin: 0 0 20px 0;
-  color: #333;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  color: #ffff00;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  animation: titleGlow 2s infinite;
+}
+
+@keyframes titleGlow {
+  0%, 100% { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5), 0 0 10px rgba(255, 255, 0, 0.3); }
+  50% { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 0, 0.6); }
 }
 
 .high-score {
   text-align: center;
   margin-bottom: 30px;
   font-size: 1.2rem;
-  color: #555;
+  color: #ccc;
 }
 
 .score-value {
   font-weight: bold;
-  color: #667eea;
+  color: #ffff00;
   font-size: 1.5rem;
 }
 
 .level-selection h2 {
   text-align: center;
-  color: #333;
+  color: #ffff00;
   margin-bottom: 20px;
 }
 
@@ -170,34 +201,35 @@ const startGame = (level) => {
   padding: 20px;
   border: 3px solid transparent;
   border-radius: 15px;
-  background: white;
+  background: #1a1a1a;
   cursor: pointer;
   transition: all 0.3s ease;
   text-align: left;
+  color: #ccc;
 }
 
 .level-btn:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 30px rgba(255, 255, 0, 0.3);
 }
 
 .level-1:hover {
   border-color: #4ade80;
-  background: #f0fdf4;
+  background: #0f1f0f;
 }
 
 .level-2:hover {
   border-color: #facc15;
-  background: #fefce8;
+  background: #1f1f0f;
 }
 
 .level-3:hover {
   border-color: #f87171;
-  background: #fef2f2;
+  background: #1f0f0f;
 }
 
 .level-4 {
-  background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+  background: linear-gradient(135deg, #ff6b00 0%, #ff0000 100%);
 }
 
 .level-5 {
@@ -215,9 +247,13 @@ const startGame = (level) => {
   color: white;
 }
 
+.level-5 .level-info h3 {
+    color: #00ffea;
+}
+
 .level-4:hover {
   transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 15px 40px rgba(245, 158, 11, 0.4);
+  box-shadow: 0 15px 40px rgba(255, 107, 0, 0.4);
 }
 
 .level-5:hover {
@@ -231,45 +267,42 @@ const startGame = (level) => {
 
 .level-info h3 {
   margin: 0 0 10px 0;
+  color: #ffff00;
 }
 
 .level-info p {
   margin: 5px 0;
   font-size: 0.9rem;
+  color: #ccc;
 }
 
-/* Default colors for levels 1-3 */
-.level-1 .level-info h3,
-.level-2 .level-info h3,
-.level-3 .level-info h3,
-.level-4 .level-info h3,
-.level-5 .level-info h3
-{
-  color: #333;
-}
-
-.level-1 .level-info p,
-.level-2 .level-info p,
-.level-3 .level-info p {
-  color: #666;
-}
 
 .instructions {
-  background: #f8f9fa;
+  background: #1a1a1a;
   padding: 20px;
   border-radius: 10px;
   text-align: center;
+  border: 1px solid #333;
 }
 
 .instructions h3 {
   margin: 0 0 15px 0;
-  color: #333;
+  color: #ffff00;
+  font-size: 1.2rem;
 }
 
 .instructions p {
   margin: 8px 0;
-  color: #555;
+  color: #ccc;
   font-size: 0.95rem;
+}
+.small-pacman-icon {
+  width: 25px;
+  height: 25px;
+  vertical-align: middle;
+  margin-right: 8px;
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 @media (max-width: 600px) {

@@ -42,6 +42,30 @@ const gridStyle = computed(() => {
     }
 })
 
+// Get snake head emoji based on level
+const getSnakeHeadEmoji = (level) => {
+  const headEmojis = {
+    1: '🟢', // Green circle
+    2: '🟡', // Yellow circle  
+    3: '🔴', // Red circle
+    4: '⚡', // Orange flash
+    5: '♾️'  // Infinity symbol
+  }
+  return headEmojis[level] || '🟡'
+}
+
+// Get snake body emoji based on level
+const getSnakeBodyEmoji = (level) => {
+  const bodyEmojis = {
+    1: '🟩', // Green square
+    2: '🟨', // Yellow square
+    3: '🟥', // Red square
+    4: '🟧', // Orange square
+    5: '🟦'  // Blue square
+  }
+  return bodyEmojis[level] || '🟨'
+}
+
 // Get position style for snake segment
 const getSegmentStyle = (segment) => {
     return {
@@ -159,7 +183,7 @@ onUnmounted(() => {
         :style="gridStyle"
         ref="gridRef"
       >
-        <!-- Snake segments -->
+        <!-- Snake segments (styled as Pac-Man) -->
         <div
           v-for="(segment, index) in snake"
           :key="`snake-${index}`"
@@ -167,10 +191,15 @@ onUnmounted(() => {
           :class="{ 'snake-head': index === 0 }"
           :style="getSegmentStyle(segment)"
         >
-          <span v-if="index === 0" class="snake-eye">👁️</span>
+          <span v-if="index === 0" class="snake-head-character" :class="`level-${currentLevel}`">
+            {{ getSnakeHeadEmoji(currentLevel) }}
+          </span>
+          <span v-else class="snake-body" :class="`level-${currentLevel}`">
+            {{ getSnakeBodyEmoji(currentLevel) }}
+          </span>
         </div>
         
-        <!-- Food items -->
+        <!-- Food items (styled as pellets) -->
         <div
           v-for="(foodItem, index) in food"
           :key="`food-${index}`"
@@ -184,8 +213,8 @@ onUnmounted(() => {
         <div v-if="isGamePaused" class="pause-overlay">
           <div class="pause-content">
             <h2>⏸️ PAUSED</h2>
-            <p> looks like you can't defeat Sob7y </p>
-            <p>Press SPACE or click Resume to try and defeat Sob7y</p>
+            <p>Looks like you need a break from the maze!</p>
+            <p>Press SPACE or click Resume to continue</p>
           </div>
         </div>
       </div>
@@ -203,7 +232,7 @@ onUnmounted(() => {
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #000000;
   padding: 20px;
 }
 
@@ -225,20 +254,21 @@ onUnmounted(() => {
 }
 
 .stat {
-  background: white;
+  background: #1a1a1a;
   padding: 10px 20px;
   border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
+  border: 1px solid #333;
 }
 
 .stat .label {
-  color: #666;
+  color: #ccc;
   font-size: 0.9rem;
   margin-right: 8px;
 }
 
 .stat .value {
-  color: #667eea;
+  color: #ffff00;
   font-weight: bold;
   font-size: 1.2rem;
 }
@@ -252,21 +282,23 @@ onUnmounted(() => {
   padding: 10px 20px;
   border: none;
   border-radius: 10px;
-  background: white;
-  color: #333;
+  background: #1a1a1a;
+  color: #ffff00;
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
+  border: 1px solid #333;
 }
 
 .control-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 12px rgba(255, 255, 0, 0.3);
+  background: #333;
 }
 
 .menu-btn {
-  background: #f87171;
+  background: #ff0000;
   color: white;
 }
 
@@ -275,46 +307,121 @@ onUnmounted(() => {
   justify-content: center;
   align-items: center;
   padding: 20px;
-  background: white;
+  background: #000000;
   border-radius: 15px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 60px rgba(255, 255, 0, 0.2);
+  border: 2px solid #333;
 }
 
 .grid {
   display: grid;
-  background: #e5e7eb;
-  outline: 3px solid #333;
+  background: #000000;
+  outline: 3px solid #0000ff;
   border-radius: 5px;
   position: relative;
   overflow: hidden;
 }
 
 .snake-segment {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  border-radius: 3px;
-  transition: all 0.05s ease;
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: all 0.05s ease;
+  border-radius: 3px;
 }
 
 .snake-head {
-  background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+  background: transparent;
   border-radius: 5px;
-  box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
   position: relative;
 }
 
-.snake-eye {
-  font-size: 0.6em;
-  position: absolute;
+.snake-head-character {
+  font-size: 1.5em;
+  animation: snakeHeadPulse 0.3s infinite;
+  z-index: 10;
+}
+
+@keyframes snakeHeadPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.snake-body {
+  font-size: 1.2em;
+  opacity: 0.8;
+}
+
+/* Level-specific snake styling */
+.level-1 .snake-head-character {
+  color: #4ade80; /* Green */
+}
+
+.level-1 .snake-body {
+  color: #4ade80; /* Green */
+}
+
+.level-2 .snake-head-character {
+  color: #facc15; /* Yellow */
+}
+
+.level-2 .snake-body {
+  color: #facc15; /* Yellow */
+}
+
+.level-3 .snake-head-character {
+  color: #ef4444; /* Red */
+}
+
+.level-3 .snake-body {
+  color: #ef4444; /* Red */
+}
+
+.level-4 .snake-head-character {
+  color: #f97316; /* Orange */
+  animation: flashPulse 0.5s infinite;
+}
+
+@keyframes flashPulse {
+  0%, 100% { 
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% { 
+    transform: scale(1.2);
+    filter: brightness(1.5);
+  }
+}
+
+.level-4 .snake-body {
+  color: #f97316; /* Orange */
+}
+
+.level-5 .snake-head-character {
+  color: #3b82f6; /* Blue */
+  animation: infinitePulse 1s infinite;
+}
+
+@keyframes infinitePulse {
+  0%, 100% { 
+    transform: scale(1) rotate(0deg);
+    filter: hue-rotate(0deg);
+  }
+  50% { 
+    transform: scale(1.1) rotate(180deg);
+    filter: hue-rotate(180deg);
+  }
+}
+
+.level-5 .snake-body {
+  color: #3b82f6; /* Blue */
 }
 
 .food {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.5em;
+  font-size: 1.2em;
   animation: foodPulse 0.8s infinite;
 }
 
@@ -361,11 +468,12 @@ onUnmounted(() => {
 }
 
 .hint {
-  color: white;
+  color: #ffff00;
   font-size: 0.95rem;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.8);
   padding: 10px 20px;
   border-radius: 10px;
+  border: 1px solid #333;
 }
 
 @media (max-width: 600px) {
@@ -379,12 +487,12 @@ onUnmounted(() => {
 }
 
 .timer-stat .value {
-  color: #10b981;
+  color: #ffff00;
   transition: color 0.3s ease;
 }
 
 .time-warning {
-  color: #ef4444 !important;
+  color: #ff0000 !important;
   animation: timerPulse 1s infinite;
 }
 

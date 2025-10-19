@@ -21,7 +21,7 @@ export const OPPOSITE_DIRECTIONS = {
  * @param {Array} snake - Current snake positions
  * @returns {Object} - Position object {x, y}
  */
-export function generateFood(gridSize, snake) {
+export function generateFood(gridSize, snake, existingFood = []) {
   // Check if grid is full (snake length equals total grid cells)
   const totalCells = gridSize * gridSize
   if (snake.length >= totalCells) {
@@ -30,19 +30,30 @@ export function generateFood(gridSize, snake) {
 
   let position
   let isValidPosition = false
-  while (!isValidPosition) {
+  let attempts = 0
+  const maxAttempts = 1000 // Prevent infinite loop
+
+  while (!isValidPosition && attempts < maxAttempts) {
     position = {
       x: Math.floor(Math.random() * gridSize),
       y: Math.floor(Math.random() * gridSize)
     }
     
     // Check if position overlaps with snake
-    isValidPosition = !snake.some(segment => 
+    const overlapsSnake = snake.some(segment => 
       segment.x === position.x && segment.y === position.y
     )
+
+    // Check if position overlaps with existing food
+    const overlapsFood = existingFood.some(food => 
+      food.x === position.x && food.y === position.y
+    )
+
+    isValidPosition = !overlapsSnake && !overlapsFood
+    attempts++
   }
   
-  return position
+  return isValidPosition ? position : null
 }
 
 /**
@@ -61,7 +72,7 @@ export function moveSnake(snake, direction, shouldGrow = false) {
     
   // Create new snake with new head
   const newSnake = [newHead, ...snake]
-    //Take the new head (newHead) — the new position of the snake’s head.
+    //Take the new head (newHead) — the new position of the snake's head.
     //Then take all the existing parts of the old snake (...snake -using spread operator).
     //Combine them into a new array.
 

@@ -123,12 +123,12 @@ onUnmounted(() => {
         <div class="infinite-stats-grid">
           <div class="infinite-stat">
             <span class="stat-icon-large">🎯</span>
-            <p class="stat-number">{{3970}}</p>
+            <p class="stat-number">{{ 3970 }}</p>
             <p class="stat-description">Total Score</p>
           </div>
           <div class="infinite-stat">
-            <span class="stat-icon-large">🍎</span>
-            <p class="stat-number">{{397}}</p>
+            <span class="stat-icon-large">🟡</span>
+            <p class="stat-number">{{ 397 }}</p>
             <p class="stat-description">Foods Eaten</p>
           </div>
           <div class="infinite-stat">
@@ -137,7 +137,7 @@ onUnmounted(() => {
             <p class="stat-description">Grid Cells (20×20)</p>
           </div>
           <div class="infinite-stat">
-            <span class="stat-icon-large">⚡</span>
+            <span class="stat-icon-large">📏</span>
             <p class="stat-number">{{400}}</p>
             <p class="stat-description">Final Length</p>
           </div>
@@ -189,42 +189,42 @@ onUnmounted(() => {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #000000;
   padding: 20px;
 }
 
-/* Epic background for infinite mode victory */
+/* Epic background for infinite mode victory - PAC-MAN themed */
 .level-complete.infinite-complete {
   background: linear-gradient(135deg, 
-    #ffd700 0%, 
-    #ff6b6b 20%, 
-    #4ecdc4 40%, 
-    #45b7d1 60%, 
-    #f093fb 80%, 
-    #ffd700 100%);
+    #000000 0%, 
+    #1a1a1a 25%, 
+    #2d2d2d 50%, 
+    #1a1a1a 75%, 
+    #000000 100%);
   background-size: 400% 400%;
-  animation: gradientShift 3s ease infinite;
+  animation: pacmanGradientShift 3s ease infinite;
 }
 
-@keyframes gradientShift {
+@keyframes pacmanGradientShift {
   0%, 100% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
 }
 
 .level-complete-container {
-  background: white;
+  background: rgba(0, 0, 0, 0.9);
   border-radius: 20px;
   padding: 40px;
   max-width: 600px;
   width: 100%;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 60px rgba(255, 255, 0, 0.3);
+  border: 2px solid #333;
   animation: slideIn 0.5s ease, pulse 2s infinite;
 }
 
 .infinite-container {
-  box-shadow: 0 20px 80px rgba(255, 215, 0, 0.6);
-  animation: slideIn 0.5s ease, epicPulse 2s infinite, rotate 20s linear infinite;
-  border: 3px solid gold;
+  box-shadow: 0 20px 80px rgba(255, 255, 0, 0.6);
+  animation: slideIn 0.5s ease, epicPulse 2s infinite, pacmanRotate 20s linear infinite;
+  border: 3px solid #ffff00;
 }
 
 @keyframes slideIn {
@@ -240,37 +240,39 @@ onUnmounted(() => {
 
 @keyframes pulse {
   0%, 100% {
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 20px 60px rgba(255, 255, 0, 0.3);
   }
   50% {
-    box-shadow: 0 20px 80px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 20px 80px rgba(255, 255, 0, 0.5);
   }
 }
 
 @keyframes epicPulse {
   0%, 100% {
-    box-shadow: 0 20px 80px rgba(255, 215, 0, 0.6);
+    box-shadow: 0 20px 80px rgba(255, 255, 0, 0.6);
     transform: scale(1);
   }
   50% {
-    box-shadow: 0 30px 100px rgba(255, 215, 0, 0.9);
+    box-shadow: 0 30px 100px rgba(255, 255, 0, 0.9);
     transform: scale(1.02);
   }
 }
 
-@keyframes rotate {
-  from { filter: hue-rotate(0deg); }
-  to { filter: hue-rotate(360deg); }
+@keyframes pacmanRotate {
+  from { filter: hue-rotate(0deg) brightness(1); }
+  50% { filter: hue-rotate(180deg) brightness(1.2); }
+  to { filter: hue-rotate(360deg) brightness(1); }
 }
 
-/* Epic celebration styles */
+/* Epic celebration styles - PAC-MAN themed */
 .epic-celebration {
   text-align: center;
   margin-bottom: 30px;
   padding: 30px;
-  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
   border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(255, 215, 0, 0.5);
+  box-shadow: 0 10px 30px rgba(255, 255, 0, 0.3);
+  border: 2px solid #ffff00;
 }
 
 .fireworks {
@@ -287,17 +289,18 @@ onUnmounted(() => {
 .epic-title {
   font-size: 3rem;
   margin: 20px 0;
-  color: #d4af37;
-  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+  color: #ffff00;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 0, 0.5);
   animation: bounce 1s ease infinite;
 }
 
 .epic-subtitle {
   font-size: 1.8rem;
-  color: #b8860b;
+  color: #ffff00;
   font-weight: bold;
   margin: 10px 0;
-  animation: pulse 1.5s ease infinite;
+  animation: pacmanPulse 1.5s ease infinite;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .epic-message {
@@ -308,42 +311,55 @@ onUnmounted(() => {
   font-size: 2rem;
   font-weight: bold;
   background: linear-gradient(90deg, 
-    #ff0000, #ff7f00, #ffff00, #00ff00, 
-    #0000ff, #4b0082, #9400d3);
+    #ffff00, #ffd700, #ffff00, #ffd700, 
+    #ffff00, #ffd700, #ffff00);
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: rainbow 3s linear infinite;
+  animation: pacmanRainbow 3s linear infinite;
   margin: 15px 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
-@keyframes rainbow {
+@keyframes pacmanRainbow {
   to { background-position: 200% center; }
+}
+
+@keyframes pacmanPulse {
+  0%, 100% { 
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 10px rgba(255, 255, 0, 0.3);
+  }
+  50% { 
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 0, 0.6);
+  }
 }
 
 .achievement-text {
   font-size: 1.2rem;
-  color: #333;
+  color: #ffff00;
   margin: 10px 0;
   font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .infinite-message-box {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
+  color: #ffff00;
   padding: 30px;
   border-radius: 15px;
   margin-bottom: 30px;
-  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 10px 30px rgba(255, 255, 0, 0.3);
+  border: 2px solid #ffff00;
 }
 
 .infinite-title {
   text-align: center;
   font-size: 1.5rem;
   margin: 0 0 25px 0;
-  color: white;
+  color: #ffff00;
   font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .infinite-stats-grid {
@@ -354,18 +370,19 @@ onUnmounted(() => {
 }
 
 .infinite-stat {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(0, 0, 0, 0.6);
   padding: 20px;
   border-radius: 12px;
   text-align: center;
   backdrop-filter: blur(10px);
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 0, 0.3);
   transition: transform 0.3s ease;
 }
 
 .infinite-stat:hover {
   transform: scale(1.05);
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(0, 0, 0, 0.8);
+  border-color: rgba(255, 255, 0, 0.6);
 }
 
 .stat-icon-large {
@@ -378,14 +395,14 @@ onUnmounted(() => {
   font-size: 2.2rem;
   font-weight: bold;
   margin: 10px 0 5px 0;
-  color: #ffd700;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  color: #ffff00;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .stat-description {
   font-size: 0.9rem;
   margin: 0;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 0, 0.9);
   font-weight: 500;
 }
 
@@ -395,7 +412,8 @@ onUnmounted(() => {
   margin: 0;
   line-height: 1.8;
   text-align: center;
-  color: white;
+  color: #ffff00;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .celebration {
@@ -406,7 +424,7 @@ onUnmounted(() => {
 .title {
   font-size: 2.5rem;
   margin: 0 0 10px 0;
-  color: #333;
+  color: #ffff00;
   animation: bounce 1s ease;
 }
 
@@ -417,7 +435,7 @@ onUnmounted(() => {
 
 .subtitle {
   font-size: 1.5rem;
-  color: #667eea;
+  color: #ffff00;
   margin: 0;
   font-weight: bold;
 }
@@ -434,9 +452,10 @@ onUnmounted(() => {
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  background: #f8f9fa;
+  background: #1a1a1a;
   border-radius: 12px;
   transition: transform 0.3s ease;
+  border: 1px solid #333;
 }
 
 .stat-box:hover {
@@ -455,35 +474,36 @@ onUnmounted(() => {
 .stat-label {
   margin: 0 0 5px 0;
   font-size: 0.85rem;
-  color: #666;
+  color: #ccc;
 }
 
 .stat-value {
   margin: 0;
   font-size: 1.8rem;
   font-weight: bold;
-  color: #667eea;
+  color: #ffff00;
 }
 
 .message-box {
-  background: #f0f4ff;
+  background: #1a1a1a;
   padding: 20px;
   border-radius: 12px;
   margin-bottom: 30px;
-  border-left: 4px solid #667eea;
+  border-left: 4px solid #ffff00;
+  border: 1px solid #333;
 }
 
 .next-level-message,
 .final-level-message {
   margin: 0;
   font-size: 1.1rem;
-  color: #333;
+  color: #ccc;
   text-align: center;
   line-height: 1.6;
 }
 
 .final-level-message {
-  color: #f59e0b;
+  color: #ffff00;
   font-weight: bold;
 }
 
@@ -502,48 +522,50 @@ onUnmounted(() => {
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
+  border: 1px solid #333;
 }
 
 .action-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 12px rgba(255, 255, 0, 0.3);
 }
 
 .continue-btn {
-  background: #f3f4f6;
-  color: #333;
+  background: #1a1a1a;
+  color: #ccc;
 }
 
 .continue-btn.selected {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  color: white;
+  background: #333;
+  color: #ffff00;
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+  box-shadow: 0 6px 20px rgba(255, 255, 0, 0.4);
 }
 
 .menu-btn {
-  background: #f3f4f6;
-  color: #333;
+  background: #1a1a1a;
+  color: #ccc;
 }
 
 .menu-btn.selected {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  color: white;
+  background: #333;
+  color: #ffff00;
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+  box-shadow: 0 6px 20px rgba(255, 255, 0, 0.4);
 }
 
 .controls-hint {
   text-align: center;
   padding: 15px;
-  background: #f8f9fa;
+  background: #1a1a1a;
   border-radius: 10px;
+  border: 1px solid #333;
 }
 
 .controls-hint p {
   margin: 0;
-  color: #666;
+  color: #ccc;
   font-size: 0.9rem;
 }
 

@@ -56,8 +56,8 @@ onUnmounted(() => {
   <div class="game-over">
     <div class="game-over-container">
       <div class="game-over-header">
-        <h1 class="game-over-title">💀 Lost to Sob7y</h1>
-        <p class="game-over-subtitle">Better luck next time!</p>
+        <h1 class="game-over-title">👻 Game Over 👻</h1>
+        <p class="game-over-subtitle">The ghosts got you!</p>
       </div>
       
       <div class="stats-container">
@@ -138,17 +138,18 @@ onUnmounted(() => {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #000000;
   padding: 20px;
 }
 
 .game-over-container {
-  background: white;
+  background: rgba(0, 0, 0, 0.9);
   border-radius: 20px;
   padding: 40px;
   max-width: 600px;
   width: 100%;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 60px rgba(255, 255, 0, 0.3);
+  border: 2px solid #333;
   animation: slideIn 0.5s ease;
 }
 
@@ -171,7 +172,7 @@ onUnmounted(() => {
 .game-over-title {
   font-size: 3rem;
   margin: 0 0 10px 0;
-  color: #333;
+  color: #ffff00;
   animation: shake 0.5s ease;
 }
 
@@ -183,7 +184,7 @@ onUnmounted(() => {
 
 .game-over-subtitle {
   font-size: 1.2rem;
-  color: #666;
+  color: #ccc;
   margin: 0;
 }
 
@@ -199,9 +200,10 @@ onUnmounted(() => {
   align-items: center;
   gap: 15px;
   padding: 20px;
-  background: #f8f9fa;
+  background: #1a1a1a;
   border-radius: 12px;
   transition: transform 0.3s ease;
+  border: 1px solid #333;
 }
 
 .stat-box:hover {
@@ -219,14 +221,14 @@ onUnmounted(() => {
 .stat-label {
   margin: 0 0 5px 0;
   font-size: 0.85rem;
-  color: #666;
+  color: #ccc;
 }
 
 .stat-value {
   margin: 0;
   font-size: 1.8rem;
   font-weight: bold;
-  color: #667eea;
+  color: #ffff00;
 }
 
 .new-high-score {
@@ -238,9 +240,9 @@ onUnmounted(() => {
 .celebration {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #f59e0b;
+  color: #ffff00;
   margin: 0;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 @keyframes pulse {
@@ -263,64 +265,68 @@ onUnmounted(() => {
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
+  border: 1px solid #333;
 }
 
 .action-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 12px rgba(255, 255, 0, 0.3);
 }
 
 .restart-btn {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  color: white;
+  background: #1a1a1a;
+  color: #ffff00;
 }
 
 .restart-btn.selected {
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+  box-shadow: 0 6px 20px rgba(255, 255, 0, 0.4);
+  background: #333;
 }
 
 .restart-btn:not(.selected) {
-  background: #f3f4f6;
-  color: #333;
+  background: #1a1a1a;
+  color: #ccc;
 }
 
 .menu-btn {
-  background: #f3f4f6;
-  color: #333;
+  background: #1a1a1a;
+  color: #ccc;
 }
 
 .menu-btn.selected {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  color: white;
+  background: #333;
+  color: #ffff00;
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+  box-shadow: 0 6px 20px rgba(255, 255, 0, 0.4);
 }
 
 .controls-hint {
   text-align: center;
   padding: 15px;
-  background: #f8f9fa;
+  background: #1a1a1a;
   border-radius: 10px;
   margin-bottom: 20px;
+  border: 1px solid #333;
 }
 
 .controls-hint p {
   margin: 0;
-  color: #666;
+  color: #ccc;
   font-size: 0.9rem;
 }
 
 .tips {
-  background: #f8f9fa;
+  background: #1a1a1a;
   padding: 20px;
   border-radius: 12px;
+  border: 1px solid #333;
 }
 
 .tips h3 {
   margin: 0 0 15px 0;
-  color: #333;
+  color: #ffff00;
   font-size: 1.2rem;
 }
 
@@ -331,7 +337,7 @@ onUnmounted(() => {
 
 .tips li {
   margin: 8px 0;
-  color: #555;
+  color: #ccc;
   line-height: 1.5;
 }
 

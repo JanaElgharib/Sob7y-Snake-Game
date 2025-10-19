@@ -21,7 +21,7 @@ const state = {
     // Game Status: 'menu', 'playing', 'levelComplete', 'paused', 'gameOver'
     gameStatus: 'menu',
 
-    // Current level (1, 2, or 3)
+    // Current level (1, 2, 3, 4, 5)
     currentLevel: 1,
 
     // Scores
@@ -77,10 +77,14 @@ const mutations = {
         // For timed food levels, food will be spawned separately
         if (!state.levelConfig.foodLifetime) {
             for (let i = 0; i < state.levelConfig.foodCount; i++) {
-                state.food.push({
-                    ...generateFood(state.gridSize, state.snake),
-                    emoji: getRandomFoodEmoji()
-                })
+                // FIXED: Pass existing food array to prevent overlap
+                const newFood = generateFood(state.gridSize, state.snake, state.food)
+                if (newFood) {
+                    state.food.push({
+                        ...newFood,
+                        emoji: getRandomFoodEmoji()
+                    })
+                }
             }
         }
 
@@ -136,8 +140,8 @@ const mutations = {
         
         // Don't spawn new food if using timed food (handled separately)
         if (!state.levelConfig.foodLifetime) {
-            // Spawn new food
-            const newFood = generateFood(state.gridSize, state.snake)
+            // FIXED: Pass existing food array to prevent overlap
+            const newFood = generateFood(state.gridSize, state.snake, state.food)
             if (newFood) {
                 state.food.push({ ...newFood, emoji: getRandomFoodEmoji() })
             } else {
@@ -312,10 +316,13 @@ const actions = {
         commit('START_LEVEL_TIMER')
 
         const intervalId = setInterval(() => {
+            // Only decrease timer if game is actively playing (not paused)
+            if (state.gameStatus === 'playing') {
             commit('DECREASE_LEVEL_TIMER')
 
             if (state.timeRemaining <= 0) {
-                dispatch('endGame') // Time's UP!
+                    dispatch('endGame')
+                }
             }
         }, 1000) // Every Second
 
@@ -326,8 +333,9 @@ const actions = {
      * Spawn timed food (for surprise level)
      */
     spawnTimedFood({ state, commit, dispatch }) {
+        // FIXED: Pass existing food array to prevent overlap
         const foodData = {
-            ...generateFood(state.gridSize, state.snake),
+            ...generateFood(state.gridSize, state.snake, state.food),
             emoji: getRandomFoodEmoji(),
             timestamp: Date.now()
         }
@@ -367,34 +375,38 @@ const actions = {
     
     /**
      * Single game step (one snake move)
+     * FIXED: Check food BEFORE moving, then move once with grow flag
+     * This makes snake grow from tail, preventing edge death bug
      */
     gameStep({ state, commit, dispatch }) {
         // Apply buffered direction change
         commit('APPLY_DIRECTION_CHANGE')
         
-        // Move snake
-        commit('UPDATE_SNAKE', false)
-        
         const head = state.snake[0]
         
-        // Check wall collision
-        if (checkWallCollision(head, state.gridSize)) {
+        // STEP 1: Check if current head position is on food (BEFORE moving)
+        const foodIndex = checkFoodCollision(head, state.food)
+        const willGrow = foodIndex !== -1
+        
+        // STEP 2: Move snake ONCE (if willGrow=true, tail stays = growth from tail)
+        commit('UPDATE_SNAKE', willGrow)
+        
+        const newHead = state.snake[0]
+        
+        // STEP 3: Check collisions with NEW head position
+        if (checkWallCollision(newHead, state.gridSize)) {
             dispatch('endGame')
             return
         }
         
-        // Check self collision
         if (checkSelfCollision(state.snake)) {
             dispatch('endGame')
             return
         }
         
-        // Check food collision
-        const foodIndex = checkFoodCollision(head, state.food)
-        if (foodIndex !== -1) {
+        // STEP 4: If food was eaten, handle scoring and spawn new food
+        if (willGrow) {
             commit('EAT_FOOD', foodIndex)
-            // Grow snake by moving again without removing tail
-            commit('UPDATE_SNAKE', true)
             
             // Play eat sound
             dispatch('playSound', 'eat')
@@ -413,7 +425,7 @@ const actions = {
                 }
             }
 
-            // Check if level complete (not for infinite mode since it has Infinity as target)
+            // Check if level complete (not for infinite mode)
             if (!state.levelConfig.isInfiniteMode && state.score >= state.levelConfig.pointsToNextLevel) {
                 dispatch('completeLevel')
             }
