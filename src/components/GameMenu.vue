@@ -1,15 +1,53 @@
 <script setup>
-//import snakeImg from '@/assets/sob7y.png'
-import { computed } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
 
 const store = useStore()
 
 const highScore = computed(() => store.state.game.highScore)
 
+// Quote of the day state
+const quote = ref('')
+const quoteAuthor = ref('')
+const isLoadingQuote = ref(true)
+
 const startGame = (level) => {
   store.dispatch('game/startGame', level)
 }
+
+// Fetch Quote of the Day
+const fetchQuoteOfTheDay = async () => {
+  try {
+    isLoadingQuote.value = true
+    
+    // Using DummyJSON API (very reliable, no auth needed)
+    const response = await fetch('https://dummyjson.com/quotes/random')
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch quote')
+    }
+    
+    const data = await response.json()
+    
+    if (data && data.quote && data.author) {
+      quote.value = data.quote
+      quoteAuthor.value = data.author
+    } else {
+      throw new Error('Invalid response format')
+    }
+  } catch (error) {
+    console.error('Error fetching quote:', error)
+    // This should NOT run if API works - shows API integration failed
+    quote.value = "API integration failed - please check connection"
+    quoteAuthor.value = "System Error"
+  } finally {
+    isLoadingQuote.value = false
+  }
+}
+
+onMounted(() => {
+  fetchQuoteOfTheDay()
+})
 </script>
 
 <template>
@@ -23,6 +61,23 @@ const startGame = (level) => {
       
       <div class="high-score">
         <p>High Score: <span class="score-value">{{ highScore }}</span></p>
+      </div>
+
+      <!-- Quote of the Day Section -->
+      <div class="quote-section">
+        <div class="quote-header">
+          <img src="D:\Semester 5\Electives\Web Programming\Snake Game\snake-game\src\assets\halloween.png" alt="Pacman" class="quote-pacman-icon"/>
+          <span class="quote-title">Pac-Man's Wisdom for Today:</span>
+        </div>
+        
+        <div v-if="isLoadingQuote" class="quote-loading">
+          <span class="loading-dots">Loading inspiration</span>
+        </div>
+        
+        <div v-else class="quote-content">
+          <p class="quote-text">"{{ quote }}"</p>
+          <p class="quote-author">- {{ quoteAuthor }}</p>
+        </div>
       </div>
       
       <div class="level-selection">
@@ -170,7 +225,7 @@ const startGame = (level) => {
 
 .high-score {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   font-size: 1.2rem;
   color: #ccc;
 }
@@ -179,6 +234,86 @@ const startGame = (level) => {
   font-weight: bold;
   color: #ffff00;
   font-size: 1.5rem;
+}
+
+/* Quote Section Styles */
+.quote-section {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  border: 2px solid #ffff00;
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 5px 20px rgba(255, 255, 0, 0.2);
+}
+
+.quote-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.quote-pacman-icon {
+  width: 35px;
+  height: 35px;
+  animation: pacmanBounce 2s infinite;
+}
+
+@keyframes pacmanBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.quote-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #ffff00;
+  text-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
+}
+
+.quote-loading {
+  text-align: center;
+  padding: 20px;
+}
+
+.loading-dots {
+  color: #ccc;
+  font-size: 1rem;
+  animation: dots 1.5s infinite;
+}
+
+@keyframes dots {
+  0%, 20% { content: 'Loading inspiration'; }
+  40% { content: 'Loading inspiration.'; }
+  60% { content: 'Loading inspiration..'; }
+  80%, 100% { content: 'Loading inspiration...'; }
+}
+
+.quote-content {
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  border-left: 4px solid #ffff00;
+}
+
+.quote-text {
+  font-size: 1.1rem;
+  font-style: italic;
+  color: #ffffff;
+  margin: 0 0 10px 0;
+  line-height: 1.6;
+}
+
+.quote-author {
+  font-size: 0.95rem;
+  color: #ffff00;
+  text-align: right;
+  margin: 0;
+  font-weight: bold;
+}
+
+.quote-content.error .quote-text {
+  color: #ff6b6b;
 }
 
 .level-selection h2 {
@@ -317,6 +452,14 @@ const startGame = (level) => {
   .level-btn {
     flex-direction: column;
     text-align: center;
+  }
+
+  .quote-section {
+    padding: 15px;
+  }
+
+  .quote-text {
+    font-size: 1rem;
   }
 }
 </style>
