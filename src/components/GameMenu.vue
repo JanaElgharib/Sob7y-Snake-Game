@@ -67,7 +67,7 @@ onMounted(() => {
       <div class="quote-section">
         <div class="quote-header">
           <img src="D:\Semester 5\Electives\Web Programming\Snake Game\snake-game\src\assets\halloween.png" alt="Pacman" class="quote-pacman-icon"/>
-          <span class="quote-title">Pac-Man's Wisdom for Today:</span>
+          <span class="quote-title">Motivation from Pac-Man:</span>
         </div>
         
         <div v-if="isLoadingQuote" class="quote-loading">
