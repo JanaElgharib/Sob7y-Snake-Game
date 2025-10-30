@@ -16,38 +16,38 @@ const startGame = (level) => {
 }
 
 // Fetch Quote of the Day
-const fetchQuoteOfTheDay = async () => {
-  try {
-    isLoadingQuote.value = true
+// const fetchQuoteOfTheDay = async () => {
+//   try {
+//     isLoadingQuote.value = true
     
-    // Using DummyJSON API (very reliable, no auth needed)
-    const response = await fetch('https://dummyjson.com/quotes/random')
+//     // Using DummyJSON API (very reliable, no auth needed)
+//     const response = await fetch('https://dummyjson.com/quotes/random')
     
-    if (!response.ok) {
-      throw new Error('Failed to fetch quote')
-    }
+//     if (!response.ok) {
+//       throw new Error('Failed to fetch quote')
+//     }
     
-    const data = await response.json()
+//     const data = await response.json()
     
-    if (data && data.quote && data.author) {
-      quote.value = data.quote
-      quoteAuthor.value = data.author
-    } else {
-      throw new Error('Invalid response format')
-    }
-  } catch (error) {
-    console.error('Error fetching quote:', error)
-    // This should NOT run if API works - shows API integration failed
-    quote.value = "API integration failed - please check connection"
-    quoteAuthor.value = "System Error"
-  } finally {
-    isLoadingQuote.value = false
-  }
-}
-
-onMounted(() => {
-  fetchQuoteOfTheDay()
-})
+//     if (data && data.quote && data.author) {
+//       quote.value = data.quote
+//       quoteAuthor.value = data.author
+//     } else {
+//       throw new Error('Invalid response format')
+//     }
+//   } catch (error) {
+//     console.error('Error fetching quote:', error)
+//     // This should NOT run if API works - shows API integration failed
+//     quote.value = "API integration failed - please check connection"
+//     quoteAuthor.value = "System Error"
+//   } finally {
+//     isLoadingQuote.value = false
+//   }
+// }
+//
+// onMounted(() => {
+//   fetchQuoteOfTheDay()
+// })
 </script>
 
 <template>
@@ -64,7 +64,7 @@ onMounted(() => {
       </div>
 
       <!-- Quote of the Day Section -->
-      <div class="quote-section">
+      <!-- <div class="quote-section">
         <div class="quote-header">
           <img src="D:\Semester 5\Electives\Web Programming\Snake Game\snake-game\src\assets\halloween.png" alt="Pacman" class="quote-pacman-icon"/>
           <span class="quote-title">Motivation from Pac-Man:</span>
@@ -78,7 +78,7 @@ onMounted(() => {
           <p class="quote-text">"{{ quote }}"</p>
           <p class="quote-author">- {{ quoteAuthor }}</p>
         </div>
-      </div>
+      </div> -->
       
       <div class="level-selection">
         <h2>Select Difficulty</h2>
